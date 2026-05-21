@@ -1,0 +1,169 @@
+port: 7890
+socks-port: 7891
+allow-lan: true
+mode: Rule
+log-level: info
+external-controller: 127.0.0.1:9090
+
+rule-providers:
+  LocalAreaNetwork:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
+    path: ./ruleset/LocalAreaNetwork.list
+    interval: 86400
+  CustomDirect:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-direct.yaml
+    path: ./ruleset/custom-direct.yaml
+    interval: 86400
+  CustomProxy:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-proxy.yaml
+    path: ./ruleset/custom-proxy.yaml
+    interval: 86400
+  CustomReject:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-reject.yaml
+    path: ./ruleset/custom-reject.yaml
+    interval: 86400
+  UnBan:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/UnBan.list
+    path: ./ruleset/UnBan.list
+    interval: 86400
+  BanAD:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanAD.list
+    path: ./ruleset/BanAD.list
+    interval: 86400
+  BanProgramAD:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/BanProgramAD.list
+    path: ./ruleset/BanProgramAD.list
+    interval: 86400
+  AI:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/AI.list
+    path: ./ruleset/AI.list
+    interval: 86400
+  OpenAi:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/OpenAi.list
+    path: ./ruleset/OpenAi.list
+    interval: 86400
+  GitHub:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.list
+    path: ./ruleset/GitHub.list
+    interval: 86400
+  Telegram:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list
+    path: ./ruleset/Telegram.list
+    interval: 86400
+  YouTube:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list
+    path: ./ruleset/YouTube.list
+    interval: 86400
+  Netflix:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Netflix.list
+    path: ./ruleset/Netflix.list
+    interval: 86400
+  ProxyMedia:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyMedia.list
+    path: ./ruleset/ProxyMedia.list
+    interval: 86400
+  Apple:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Apple.list
+    path: ./ruleset/Apple.list
+    interval: 86400
+  Microsoft:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Microsoft.list
+    path: ./ruleset/Microsoft.list
+    interval: 86400
+  GoogleFCM:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleFCM.list
+    path: ./ruleset/GoogleFCM.list
+    interval: 86400
+  ProxyGFWlist:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ProxyGFWlist.list
+    path: ./ruleset/ProxyGFWlist.list
+    interval: 86400
+  GoogleCN:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleCN.list
+    path: ./ruleset/GoogleCN.list
+    interval: 86400
+  SteamCN:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/SteamCN.list
+    path: ./ruleset/SteamCN.list
+    interval: 86400
+  ChinaDomain:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list
+    path: ./ruleset/ChinaDomain.list
+    interval: 86400
+  ChinaCompanyIp:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list
+    path: ./ruleset/ChinaCompanyIp.list
+    interval: 86400
+  Download:
+    type: http
+    behavior: classical
+    format: text
+    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Download.list
+    path: ./ruleset/Download.list
+    interval: 86400
