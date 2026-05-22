@@ -1,0 +1,18 @@
+payload:
+  - DOMAIN,copilot.microsoft.com
+  - DOMAIN,www.bing.com
+  - DOMAIN,sydney.bing.com
+  - DOMAIN,edgeservices.bing.com
+  - DOMAIN,services.bingapis.com
+  - DOMAIN,gateway.bingviz.microsoft.net
+  - DOMAIN,gateway.bingviz.microsoftapp.net
+  - DOMAIN,r.bing.com
+  - DOMAIN,api.msn.com
+  - DOMAIN,assets.msn.com
+  - DOMAIN-SUFFIX,bing.com
+  - DOMAIN-SUFFIX,bing.net
+  - DOMAIN-SUFFIX,bingapis.com
+  - DOMAIN-SUFFIX,api.microsoftapp.net
+  - DOMAIN-SUFFIX,edgeservices.bing.com
+  - DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
+  - DOMAIN-SUFFIX,msn.com
