@@ -31,6 +31,4 @@ Do not commit subscription URLs, server IPs, account tokens, or credentials to t
 
 - `mobile-clash-config.ini` - subconverter external config, policy groups and rule order.
 - `mobile-clash-base.yaml` - Clash/Mihomo base profile containing `rule-providers`.
-- `rules/custom-direct.yaml` - personal direct rules.
-- `rules/custom-proxy.yaml` - personal proxy rules.
-- `rules/custom-reject.yaml` - personal reject rules.
+- `rules/custom-microsoft-copilot.yaml` - explicit Copilot/Bing routing rules.

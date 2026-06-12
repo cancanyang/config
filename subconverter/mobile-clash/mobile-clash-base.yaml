@@ -5,6 +5,11 @@ unified-delay: true
 tcp-concurrent: true
 find-process-mode: strict
 
+geox-url:
+  geoip: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.dat"
+  geosite: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geosite.dat"
+  mmdb: "https://fastly.jsdelivr.net/gh/MetaCubeX/meta-rules-dat@release/geoip.metadb"
+
 profile:
   store-selected: true
   store-fake-ip: true
@@ -37,70 +42,85 @@ sniffer:
 
 dns:
   enable: true
-  listen: 0.0.0.0:1053
+  listen: 127.0.0.1:1053
   ipv6: false
+  use-system-hosts: true
+  respect-rules: true
   enhanced-mode: fake-ip
   fake-ip-range: 198.18.0.1/16
-  fake-ip-filter-mode: rule
+  use-hosts: false
+  fake-ip-filter-mode: blacklist
   fake-ip-filter:
-    - RULE-SET,LocalAreaNetwork,real-ip
-    - RULE-SET,CustomDirect,real-ip
-    - RULE-SET,GoogleCN,real-ip
-    - RULE-SET,SteamCN,real-ip
-    - RULE-SET,ChinaDomain,real-ip
-    - GEOSITE,cn,real-ip
-    - GEOSITE,apple-cn,real-ip
-    - GEOSITE,icloud@cn,real-ip
-    - GEOSITE,microsoft@cn,real-ip
-    - DOMAIN-SUFFIX,lan,real-ip
-    - DOMAIN-SUFFIX,local,real-ip
-    - DOMAIN-SUFFIX,localhost,real-ip
-    - DOMAIN-SUFFIX,home.arpa,real-ip
-    - DOMAIN-KEYWORD,ntp,real-ip
-    - DOMAIN-KEYWORD,time,real-ip
-    - DOMAIN-SUFFIX,msftconnecttest.com,real-ip
-    - DOMAIN-SUFFIX,msftncsi.com,real-ip
-    - DOMAIN-SUFFIX,srv.nintendo.net,real-ip
-    - DOMAIN-SUFFIX,stun.playstation.net,real-ip
-    - DOMAIN-SUFFIX,xboxlive.com,real-ip
-    - DOMAIN-SUFFIX,airplay,real-ip
-    - DOMAIN-SUFFIX,dns-sd,real-ip
-    - DOMAIN-SUFFIX,dns-sd.org,real-ip
-    - DOMAIN-SUFFIX,ipp,real-ip
-    - DOMAIN-SUFFIX,ippusb,real-ip
-    - DOMAIN-SUFFIX,mesh,real-ip
-    - DOMAIN-SUFFIX,test,real-ip
-    - MATCH,fake-ip
+    - "*.lan"
+    - "*.local"
+    - localhost
+    - "*.localhost"
+    - "*.home.arpa"
+    - msftconnecttest.com
+    - "*.msftconnecttest.com"
+    - msftncsi.com
+    - "*.msftncsi.com"
+    - srv.nintendo.net
+    - stun.playstation.net
+    - "*.xboxlive.com"
+    - "*.airplay"
+    - "*.dns-sd"
+    - "*.dns-sd.org"
+    - "*.ipp"
+    - "*.ippusb"
+    - "*.mesh"
+    - "*.test"
   default-nameserver:
-    - system
     - 223.5.5.5
     - 119.29.29.29
+  nameserver-policy:
+    "geosite:cn,private,apple-cn,icloud@cn,microsoft@cn":
+      - https://doh.pub/dns-query
+      - tls://dns.alidns.com:853
+    "geosite:category-ads-all": rcode://success
   nameserver:
-    - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - https://doh-2g9aqrie-mihomo.doh.pub/dns-query
+    - tls://dns.alidns.com:853
   direct-nameserver:
     - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - tls://dns.alidns.com:853
     - 119.29.29.29
   direct-nameserver-follow-policy: true
   proxy-server-nameserver:
     - https://doh.pub/dns-query
-    - https://dns.alidns.com/dns-query
+    - tls://dns.alidns.com:853
     - 119.29.29.29
   fallback:
     - https://1.1.1.1/dns-query
-    - https://8.8.8.8/dns-query
+    - https://dns.google/dns-query
   fallback-filter:
     geoip: true
     geoip-code: CN
+    geosite:
+      - gfw
+      - google
+      - youtube
+      - netflix
+      - openai
     ipcidr:
       - 240.0.0.0/4
+      - 0.0.0.0/32
     domain:
       - +.google.com
-      - +.facebook.com
-      - +.twitter.com
       - +.youtube.com
-      - +.github.com
+      - +.netflix.com
+      - +.openai.com
+      - +.chatgpt.com
+
+tun:
+  enable: true
+  stack: mixed
+  auto-route: true
+  auto-detect-interface: true
+  strict-route: true
+  dns-hijack:
+    - any:53
+    - tcp://any:53
 
 rule-providers:
   LocalAreaNetwork:
@@ -109,27 +129,6 @@ rule-providers:
     format: text
     url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/LocalAreaNetwork.list
     path: ./ruleset/LocalAreaNetwork.list
-    interval: 86400
-  CustomDirect:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-direct.yaml
-    path: ./ruleset/custom-direct.yaml
-    interval: 86400
-  CustomProxy:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-proxy.yaml
-    path: ./ruleset/custom-proxy.yaml
-    interval: 86400
-  CustomReject:
-    type: http
-    behavior: classical
-    format: yaml
-    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-reject.yaml
-    path: ./ruleset/custom-reject.yaml
     interval: 86400
   UnBan:
     type: http
@@ -154,10 +153,10 @@ rule-providers:
     interval: 86400
   OpenAI:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.list
-    path: ./ruleset/OpenAI.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/openai.mrs
+    path: ./ruleset/OpenAI.mrs
     interval: 86400
   Gemini:
     type: http
@@ -165,6 +164,13 @@ rule-providers:
     format: text
     url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.list
     path: ./ruleset/Gemini.list
+    interval: 86400
+  Google:
+    type: http
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs
+    path: ./ruleset/Google.mrs
     interval: 86400
   MicrosoftCopilot:
     type: http
@@ -175,66 +181,38 @@ rule-providers:
     interval: 86400
   GitHub:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/GitHub/GitHub.list
-    path: ./ruleset/GitHub.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs
+    path: ./ruleset/GitHub.mrs
     interval: 86400
   Telegram:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Telegram.list
-    path: ./ruleset/Telegram.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/telegram.mrs
+    path: ./ruleset/Telegram.mrs
     interval: 86400
   YouTube:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/YouTube.list
-    path: ./ruleset/YouTube.list
-    interval: 86400
-  Netflix:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Netflix.list
-    path: ./ruleset/Netflix.list
-    interval: 86400
-  DisneyPlus:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/DisneyPlus.list
-    path: ./ruleset/DisneyPlus.list
-    interval: 86400
-  Spotify:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/Spotify.list
-    path: ./ruleset/Spotify.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/youtube.mrs
+    path: ./ruleset/YouTube.mrs
     interval: 86400
   Apple:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Apple.list
-    path: ./ruleset/Apple.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple.mrs
+    path: ./ruleset/Apple.mrs
     interval: 86400
   Microsoft:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Microsoft.list
-    path: ./ruleset/Microsoft.list
-    interval: 86400
-  GoogleFCM:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleFCM.list
-    path: ./ruleset/GoogleFCM.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/microsoft.mrs
+    path: ./ruleset/Microsoft.mrs
     interval: 86400
   ProxyGFWlist:
     type: http
@@ -245,29 +223,22 @@ rule-providers:
     interval: 86400
   GoogleCN:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/GoogleCN.list
-    path: ./ruleset/GoogleCN.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google-cn.mrs
+    path: ./ruleset/GoogleCN.mrs
     interval: 86400
   SteamCN:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/Ruleset/SteamCN.list
-    path: ./ruleset/SteamCN.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs
+    path: ./ruleset/SteamCN.mrs
     interval: 86400
   ChinaDomain:
     type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaDomain.list
-    path: ./ruleset/ChinaDomain.list
-    interval: 86400
-  ChinaCompanyIp:
-    type: http
-    behavior: classical
-    format: text
-    url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/ChinaCompanyIp.list
-    path: ./ruleset/ChinaCompanyIp.list
+    behavior: domain
+    format: mrs
+    url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/cn.mrs
+    path: ./ruleset/ChinaDomain.mrs
     interval: 86400
