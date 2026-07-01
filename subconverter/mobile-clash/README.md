@@ -10,7 +10,7 @@ The config is intentionally concise:
 - `rules` are generated as compact `RULE-SET` / `GEOIP` / `MATCH` entries.
 - Rule order follows common Clash/Mihomo practice: local/direct exceptions, blocking, specific services, broad proxy, China direct, `GEOIP,CN`, then `MATCH`.
 - `rule-providers` are defined in `mobile-clash-base.yaml`.
-- Custom editable providers live in `rules/`.
+- Custom editable providers live in `rules/`, with `custom-direct.yaml` and `custom-proxy.yaml` as the main manual override entrypoints.
 - `overwrite_original_rules=true` replaces rules from the original subscription.
 
 Raw URL after pushing this repository:
@@ -31,4 +31,5 @@ Do not commit subscription URLs, server IPs, account tokens, or credentials to t
 
 - `mobile-clash-config.ini` - subconverter external config, policy groups and rule order.
 - `mobile-clash-base.yaml` - Clash/Mihomo base profile containing `rule-providers`.
-- `rules/custom-microsoft-copilot.yaml` - explicit Copilot/Bing routing rules.
+- `rules/custom-direct.yaml` - explicit direct-routing overrides.
+- `rules/custom-proxy.yaml` - explicit proxy-routing overrides such as Copilot/Bing and Longbridge.

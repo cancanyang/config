@@ -137,6 +137,13 @@ rule-providers:
     url: https://raw.githubusercontent.com/ACL4SSR/ACL4SSR/master/Clash/UnBan.list
     path: ./ruleset/UnBan.list
     interval: 86400
+  CustomDirect:
+    type: http
+    behavior: classical
+    format: yaml
+    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-direct.yaml
+    path: ./ruleset/custom-direct.yaml
+    interval: 86400
   BanAD:
     type: http
     behavior: classical
@@ -172,12 +179,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs
     path: ./ruleset/Google.mrs
     interval: 86400
-  MicrosoftCopilot:
+  CustomProxy:
     type: http
     behavior: classical
     format: yaml
-    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-microsoft-copilot.yaml
-    path: ./ruleset/custom-microsoft-copilot.yaml
+    url: https://raw.githubusercontent.com/cancanyang/config/master/subconverter/mobile-clash/rules/custom-proxy.yaml
+    path: ./ruleset/custom-proxy.yaml
     interval: 86400
   GitHub:
     type: http

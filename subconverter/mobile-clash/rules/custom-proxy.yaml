@@ -16,3 +16,5 @@ payload:
   - DOMAIN-SUFFIX,edgeservices.bing.com
   - DOMAIN-SUFFIX,bing-shopping.microsoft-falcon.io
   - DOMAIN-SUFFIX,msn.com
+  - DOMAIN-SUFFIX,longbridgeapp.com
+  - DOMAIN-SUFFIX,longbridge.hk
