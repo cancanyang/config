@@ -79,7 +79,7 @@ dns:
       - tls://dns.alidns.com:853
     "geosite:category-ads-all": rcode://success
   nameserver:
-    - https://doh-2g9aqrie-mihomo.doh.pub/dns-query
+    - https://doh.pub/dns-query
     - tls://dns.alidns.com:853
   direct-nameserver:
     - https://doh.pub/dns-query
